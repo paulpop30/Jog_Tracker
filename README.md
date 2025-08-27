@@ -55,7 +55,7 @@ cd Jog_Tracker
 
 # Install dependencies
 bundle install
-
+yarn install --check-files
  ---
 
 ## 🗄 Database Setup
@@ -64,4 +64,4 @@ rails db:create
 rails db:migrate
 rails db:seed   # optional
 
-yarn install --check-files
+
