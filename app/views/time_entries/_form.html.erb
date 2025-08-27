@@ -1,0 +1,41 @@
+<%= form_with(model: @time_entry.persisted? ? @time_entry : (current_user.admin? && @user != current_user ? [@user, @time_entry] : @time_entry), local: true) do |form| %>
+  <% if @time_entry.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@time_entry.errors.count, "error") %> prohibited this time entry from being saved:</h2>
+      <ul>
+        <% @time_entry.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if current_user.admin? && @user != current_user %>
+    <%= form.hidden_field :user_id, value: @user.id %>
+  <% end %>
+
+  <div>
+    <%= form.label :date %>
+    <%= form.date_field :date %>
+  </div>
+
+  <div>
+    <%= form.label :distance %>
+    <%= form.number_field :distance, step: 0.01 %>
+  </div>
+
+  <div>
+    <%= form.label :time_in_seconds %>
+    <%= form.number_field :time_in_seconds %>
+  </div>
+
+  <div>
+  <%= form.label :location %>
+  <%= form.text_field :location %>
+  </div>
+
+
+  <div>
+    <%= form.submit class: "btn btn-success" %>
+  </div>
+<% end %>

@@ -1,0 +1,49 @@
+<h1>Weekly Report</h1>
+
+<canvas id="weeklyReportChart" width="800" height="400"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const ctx = document.getElementById('weeklyReportChart').getContext('2d');
+
+    // Convert Rails @weekly_stats to JS arrays
+    const labels = <%= raw @weekly_stats.map { |w| w.week_start.to_date.strftime("%d %b %Y") }.to_json %>;
+    const avgSpeeds = <%= raw @weekly_stats.map { |w| w.avg_speed.to_f }.to_json %>;
+    const totalDistances = <%= raw @weekly_stats.map { |w| w.total_distance.to_f }.to_json %>;
+
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            type: 'bar',
+            label: 'Total Distance (km)',
+            data: totalDistances,
+            backgroundColor: 'rgba(16, 185, 129, 0.3)',
+            barPercentage: 0.3,       // makes bars slimmer
+            categoryPercentage: 0.6   // spacing between bar groups
+          },
+          {
+            type: 'line',
+            label: 'Average Speed (km/h)',
+            data: avgSpeeds,
+            borderColor: 'rgba(99, 102, 241, 1)',
+            backgroundColor: 'rgba(99, 102, 241, 0.2)',
+            tension: 0.3
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'top' },
+          title: { display: true, text: 'Weekly Report' }
+        },
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+
+  });
+</script>

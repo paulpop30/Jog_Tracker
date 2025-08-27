@@ -1,0 +1,17 @@
+<tr id="<%= dom_id(time_entry) %>">
+  <td><%= time_entry.date %></td>
+  <td><%= time_entry.distance %></td>
+  <td><%= time_entry.time_in_seconds %></td>
+  <td><%= time_entry.average_speed %></td>
+  <td><%= time_entry.location %></td>
+
+  <td>
+    <%= link_to "Show", time_entry_path(time_entry),
+          data: { turbo_frame: "_top" }, class: "btn btn-info" %> |
+    <%= link_to "Edit", edit_time_entry_path(time_entry),
+          data: { turbo_frame: "_top" }, class: "btn btn-primary" %> |
+    <%= link_to "Delete", time_entry_path(time_entry),
+          data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+          class: "btn btn-danger" %>
+  </td>
+</tr>

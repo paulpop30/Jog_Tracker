@@ -1,0 +1,70 @@
+<h1>
+  <% if @user != current_user && current_user.admin? %>
+    <%= @user.email %>'s Time Entries
+  <% else %>
+    Your Time Entries
+  <% end %>
+</h1>
+
+<div class="button-row" style="display: flex; gap: 10px; margin-bottom: 20px;">
+  <%# New Time Entry %>
+  <% if current_user.admin? && @user != current_user %>
+    <%= link_to 'New Time Entry', new_user_time_entry_path(@user), class: 'btn btn-success' %>
+  <% else %>
+    <%= link_to 'New Time Entry', new_time_entry_path, class: 'btn btn-success' %>
+  <% end %>
+
+  <%# Weekly Report button %>
+  <% if current_user.admin? && @user != current_user %>
+    <%= link_to 'Weekly Report', weekly_report_user_time_entries_path(@user), class: 'btn btn-info' %>
+  <% else %>
+    <%= link_to 'Weekly Report', weekly_report_time_entries_path, class: 'btn btn-info' %>
+  <% end %>
+
+  <%# Filter button %>
+  <% if current_user.admin? && @user != current_user %>
+    <%= link_to 'Filter', filter_user_time_entries_path(@user), class: 'btn btn-primary' %>
+  <% else %>
+    <%= link_to 'Filter', filter_time_entries_path, class: 'btn btn-primary' %>
+  <% end %>
+
+  <%# Back buttons %>
+  <% if current_user.admin? && @user != current_user %>
+    <%= link_to 'Back to All Users', users_path, class: 'btn btn-secondary' %>
+  <% else %>
+    <%= link_to 'Back', time_entries_path, class: 'btn btn-secondary' %>
+  <% end %>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Distance (km)</th>
+      <th>Time (seconds)</th>
+      <th>Average Speed (km/h)</th>
+      <th>Location </th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @time_entries.each do |entry| %>
+      <tr id="<%= dom_id(entry) %>">
+        <td><%= entry.date %></td>
+        <td><%= entry.distance %></td>
+        <td><%= entry.time_in_seconds %></td>
+        <td><%= entry.average_speed %></td>
+        <td><%= entry.location %></td>
+
+        <td>
+          <%# Show/Edit/Delete links %>
+          <%= link_to "Show", time_entry_path(entry), class: 'btn btn-info' %> |
+          <%= link_to 'Edit', edit_time_entry_path(entry), data: { turbo_frame: "_top" }, class: 'btn btn-primary' %> |
+          <%= link_to "Delete", time_entry_path(entry),
+                      data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+                      class: 'btn btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

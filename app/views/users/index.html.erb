@@ -1,0 +1,27 @@
+<h1>Users</h1>
+<%= link_to "New User", new_user_path, data: { turbo_frame: "user_form" }, class: "btn btn-primary" %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Role</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr id="<%= dom_id(user) %>">
+        <td><%= user.email %></td>
+        <td><%= user.role.titleize %></td>
+        <td>
+          <%= link_to "Show", user_path(user), data: { turbo_frame: "_top" }, class: "btn btn-info" %> |
+          <%= link_to "Edit", edit_user_path(user), data: { turbo_frame: "_top" }, class: "btn btn-primary" %> |
+          <%= link_to "Delete", user_path(user),
+                      data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+                      class: "btn btn-danger" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

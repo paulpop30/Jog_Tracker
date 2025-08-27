@@ -1,0 +1,15 @@
+<h1>Filter Time Entries</h1>
+
+<%= form_with url: apply_filter_time_entries_path, method: :post, local: true do |f| %>
+  <div>
+    <%= f.label :from_date, "From" %>
+    <%= f.date_field :from_date %>
+  </div>
+
+  <div>
+    <%= f.label :to_date, "To" %>
+    <%= f.date_field :to_date %>
+  </div>
+
+  <%= f.submit "Apply Filter", class: "btn btn-primary" %>
+<% end %>
